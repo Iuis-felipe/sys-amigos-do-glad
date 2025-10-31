@@ -13,7 +13,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
   const [generatedTeams, setGeneratedTeams] = useState<[Team, Team] | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [playersPerTeam, setPlayersPerTeam] = useState<7 | 8>(7);
+  const [playersPerTeam, setPlayersPerTeam] = useState<7 | 7.5 | 8>(7);
 
   const handlePlayerToggle = (player: Player) => {
     setSelectedPlayers((prev) => {
@@ -30,8 +30,9 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
   };
 
   const handleSelectAll = () => {
+    const maxPlayers = playersPerTeam === 7.5 ? 15 : playersPerTeam * 2;
     const shuffled = [...allPlayers].sort(() => Math.random() - 0.5);
-    setSelectedPlayers(shuffled.slice(0, playersPerTeam * 2));
+    setSelectedPlayers(shuffled.slice(0, maxPlayers));
   };
 
   const handleClearSelection = () => {
@@ -50,7 +51,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
 
     try {
       const options: TeamGenerationOptions = {
-        playersPerTeam,
+        playersPerTeam: playersPerTeam === 7.5 ? 7 : playersPerTeam,
         balanceStrategy: "mixed",
       };
 
@@ -70,7 +71,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
   };
 
   const isPlayerSelected = (player: Player) => selectedPlayers.some((p) => p.id === player.id);
-  const maxPlayers = playersPerTeam * 2;
+  const maxPlayers = playersPerTeam === 7.5 ? 15 : playersPerTeam * 2;
 
   return (
     <div className="space-y-8">
@@ -91,7 +92,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
             <select
               value={playersPerTeam}
               onChange={(e) => {
-                const newSize = Number(e.target.value) as 7 | 8;
+                const newSize = Number(e.target.value) as 7 | 7.5 | 8;
                 setPlayersPerTeam(newSize);
                 setSelectedPlayers([]);
                 setGeneratedTeams(null);
@@ -99,6 +100,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
               className="bg-slate-700 text-white rounded-lg px-3 py-2 border border-slate-600 focus:border-green-400 transition-colors text-sm sm:text-base w-full sm:w-auto"
             >
               <option value={7}>7 vs 7 (14 jogadores)</option>
+              <option value={7.5}>7 vs 8 (15 jogadores)</option>
               <option value={8}>8 vs 8 (16 jogadores)</option>
             </select>
           </div>
@@ -217,10 +219,7 @@ export default function MatchCreator({ allPlayers }: MatchCreatorProps) {
 
           {/* Botões de Exportação */}
           <div className="mb-8 no-print">
-            <ExportButtons
-              teams={generatedTeams}
-              className="mb-4"
-            />
+            <ExportButtons teams={generatedTeams} className="mb-4" />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">

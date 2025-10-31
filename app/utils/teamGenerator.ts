@@ -17,8 +17,8 @@ export function generateBalancedTeams(
   }
 
   // Separar goleiros dos outros jogadores
-  const goalkeepers = players.filter(player => player.position === "GK");
-  
+  const goalkeepers = players.filter((player) => player.position === "GK");
+
   // Embaralha os jogadores para evitar padrões
   const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
 
@@ -36,10 +36,12 @@ export function generateBalancedTeams(
   }
 
   // Jogadores restantes (excluindo goleiros já distribuídos)
-  const playersToDistribute = shuffledPlayers.filter(player => {
+  const playersToDistribute = shuffledPlayers.filter((player) => {
     if (goalkeepers.length === 2) {
       return !goalkeepers.includes(player);
     } else if (goalkeepers.length === 1 && players.length !== 15) {
+      return player !== goalkeepers[0];
+    } else if (goalkeepers.length === 1 && players.length === 15) {
       return player !== goalkeepers[0];
     }
     return true;
@@ -50,8 +52,8 @@ export function generateBalancedTeams(
     const sortedPlayers = playersToDistribute.sort((a, b) => b.overall - a.overall);
 
     // Distribui alternadamente (serpentina) para balancear
-    const totalPlayersToDistribute = Math.min(sortedPlayers.length, (playersPerTeam * 2) - team1.length - team2.length);
-    
+    const totalPlayersToDistribute = Math.min(sortedPlayers.length, playersPerTeam * 2 - team1.length - team2.length);
+
     for (let i = 0; i < totalPlayersToDistribute; i++) {
       if (i % 4 < 2) {
         if (team1.length < playersPerTeam) {
@@ -135,37 +137,74 @@ export function generateBalancedTeams(
     }
   }
 
-  // Lógica especial para 15 jogadores com 1 goleiro
-  if (players.length === 15 && goalkeepers.length === 1) {
-    // O goleiro vai para o time com menos jogadores
-    if (team1.length < team2.length) {
-      team1.push(goalkeepers[0]);
-    } else if (team2.length < team1.length) {
-      team2.push(goalkeepers[0]);
-    } else {
-      // Se estão iguais, adiciona ao team1
-      team1.push(goalkeepers[0]);
-    }
-  }
-
-  // Para casos de 15 jogadores, distribui um jogador a mais para equilibrar
   if (players.length === 15) {
-    // Verifica se os times estão com 7 cada (sem contar possível goleiro já adicionado)
-    const total = team1.length + team2.length;
-    if (total === 14) {
-      // Adiciona o 15º jogador ao time com menor average rating
-      const lastPlayer = players.find(p => !team1.includes(p) && !team2.includes(p));
-      if (lastPlayer) {
+    const remainingPlayers = players.filter((p) => !team1.includes(p) && !team2.includes(p));
+
+    const remainingGoalkeepers = remainingPlayers.filter((p) => p.position === "GK");
+    const remainingFieldPlayers = remainingPlayers.filter((p) => p.position !== "GK");
+
+    // Primeiro distribui jogadores de campo de forma balanceada (7-7)
+    remainingFieldPlayers.forEach((player) => {
+      if (team1.length < team2.length) {
+        team1.push(player);
+      } else if (team2.length < team1.length) {
+        team2.push(player);
+      } else {
         const team1Avg = calculateTeamAverage(team1);
         const team2Avg = calculateTeamAverage(team2);
-        
+
         if (team1Avg <= team2Avg) {
-          team1.push(lastPlayer);
+          team1.push(player);
         } else {
-          team2.push(lastPlayer);
+          team2.push(player);
         }
       }
-    }
+    });
+
+    remainingGoalkeepers.forEach((goalkeeper) => {
+      // Se os times estão iguais, precisamos rebalancear
+      if (team1.length === team2.length) {
+        // Move um jogador de team1 para team2
+        const playerToMove = team1.pop(); // Remove o último jogador de team1
+        if (playerToMove) {
+          team2.push(playerToMove); // Adiciona em team2
+        }
+        // Agora team1 tem menos jogadores, então adiciona o goleiro lá
+        team1.push(goalkeeper);
+      } else if (team1.length < team2.length) {
+        team1.push(goalkeeper);
+      } else {
+        team2.push(goalkeeper);
+      }
+    });
+  }
+
+  // Lógica adicional para 14 e 16 jogadores com goleiros
+  if (players.length !== 15) {
+    const remainingPlayers = players.filter((p) => !team1.includes(p) && !team2.includes(p));
+    const remainingGoalkeepers = remainingPlayers.filter((p) => p.position === "GK");
+
+    // Se ainda há goleiros não distribuídos para 14 ou 16 jogadores
+    remainingGoalkeepers.forEach((goalkeeper) => {
+      if (goalkeepers.length === 1) {
+        // 1 goleiro: vai para o time com menos jogadores
+        if (team1.length < team2.length) {
+          team1.push(goalkeeper);
+        } else if (team2.length < team1.length) {
+          team2.push(goalkeeper);
+        } else {
+          // Se iguais, vai para team1
+          team1.push(goalkeeper);
+        }
+      } else if (goalkeepers.length >= 2) {
+        // 2+ goleiros: distribui um para cada time se possível
+        if (!team1.some((p) => p.position === "GK")) {
+          team1.push(goalkeeper);
+        } else if (!team2.some((p) => p.position === "GK")) {
+          team2.push(goalkeeper);
+        }
+      }
+    });
   }
 
   // Cria os objetos Team
