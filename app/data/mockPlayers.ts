@@ -21,7 +21,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "2",
-    name: "Pedro Santos",
+    name: "teste",
     position: "MID",
     overall: 82,
     attributes: {
@@ -38,7 +38,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "3",
-    name: "Carlos Oliveira",
+    name: "teste",
     position: "DEF",
     overall: 80,
     attributes: {
@@ -55,7 +55,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "4",
-    name: "Lucas Costa",
+    name: "teste",
     position: "GK",
     overall: 83,
     attributes: {
@@ -72,7 +72,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "5",
-    name: "Rafael Lima",
+    name: "teste",
     position: "ATT",
     overall: 79,
     attributes: {
@@ -89,7 +89,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "6",
-    name: "Gabriel Rocha",
+    name: "teste",
     position: "MID",
     overall: 77,
     attributes: {
@@ -106,7 +106,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "7",
-    name: "Bruno Ferreira",
+    name: "teste",
     position: "DEF",
     overall: 78,
     attributes: {
@@ -123,7 +123,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "8",
-    name: "Diego Martins",
+    name: "teste",
     position: "MID",
     overall: 81,
     attributes: {
@@ -140,7 +140,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "9",
-    name: "André Alves",
+    name: "teste",
     position: "DEF",
     overall: 76,
     attributes: {
@@ -157,7 +157,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "10",
-    name: "Felipe Souza",
+    name: "teste",
     position: "ATT",
     overall: 84,
     attributes: {
@@ -174,7 +174,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "11",
-    name: "Thiago Mendes",
+    name: "teste",
     position: "GK",
     overall: 79,
     attributes: {
@@ -191,7 +191,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "12",
-    name: "Marcos Ribeiro",
+    name: "teste",
     position: "MID",
     overall: 75,
     attributes: {
@@ -208,7 +208,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "13",
-    name: "Ricardo Dias",
+    name: "teste",
     position: "DEF",
     overall: 82,
     attributes: {
@@ -225,7 +225,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "14",
-    name: "Vinicius Torres",
+    name: "teste",
     position: "ATT",
     overall: 77,
     attributes: {
@@ -242,7 +242,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "15",
-    name: "Matheus Araújo",
+    name: "teste",
     position: "GK",
     overall: 81,
     attributes: {
@@ -259,7 +259,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "16",
-    name: "Eduardo Gomes",
+    name: "teste",
     position: "DEF",
     overall: 79,
     attributes: {
@@ -276,7 +276,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "17",
-    name: "Gustavo Pereira",
+    name: "teste",
     position: "MID",
     overall: 83,
     attributes: {
@@ -293,7 +293,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "18",
-    name: "Leonardo Silva",
+    name: "teste",
     position: "ATT",
     overall: 78,
     attributes: {
@@ -310,7 +310,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "19",
-    name: "Renato Oliveira",
+    name: "teste",
     position: "MID",
     overall: 80,
     attributes: {
@@ -327,7 +327,7 @@ export const mockPlayers: Player[] = [
   },
   {
     id: "20",
-    name: "Rodrigo Santos",
+    name: "teste",
     position: "DEF",
     overall: 77,
     attributes: {
